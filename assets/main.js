@@ -25,14 +25,14 @@ class Game {
         this.singleDraw();
     }
 
-    singleDraw(){
-        
-        if(this.playerCards.length == 0){
+    singleDraw() {
+
+        if (this.playerCards.length == 0) {
             div_result.innerHTML = 'Comp Wins Game'
         }
-        else if(this.compCards.length == 0){
+        else if (this.compCards.length == 0) {
             div_result.innerHTML = 'You Win Game'
-        } 
+        }
 
         const player_cards_img = document.querySelector('#player_cards');
         const comp_cards_img = document.querySelector('#comp_cards');
@@ -46,22 +46,25 @@ class Game {
         player_cards_img.src = player_card.image;
         comp_cards_img.src = comp_card.image;
 
-            const div_result = document.querySelector('#display_result')
-            if (player_card.figure == comp_card.figure) {
-                div_result.innerHTML = 'wojna'
-            }
+        const div_result = document.querySelector('#display_result')
+        if (player_card.figure == comp_card.figure) {
+            new Audio('assets/sounds/war.wav').play();
+            div_result.innerHTML = 'wojna'
+        }
 
-            else if (player_card.figure > comp_card.figure) {
-                this.playerCards.push(player_card);
-                this.playerCards.push(comp_card);
-                div_result.innerHTML = 'You Win'
-            }
-            else {
-                this.compCards.push(player_card);
-                this.compCards.push(comp_card);
-                div_result.innerHTML = 'Comp Wins'
-            }
-       
+        else if (player_card.figure > comp_card.figure) {
+            this.playerCards.push(player_card);
+            this.playerCards.push(comp_card);
+            new Audio('assets/sounds/win.mp3').play();
+            div_result.innerHTML = 'You Win'
+        }
+        else {
+            this.compCards.push(player_card);
+            this.compCards.push(comp_card);
+            new Audio('assets/sounds/loose.wav').play();
+            div_result.innerHTML = 'Comp Wins'
+        }
+
     }
 
     generateDeck() {
