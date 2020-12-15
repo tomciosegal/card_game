@@ -50,6 +50,36 @@ class Game {
         if (player_card.figure == comp_card.figure) {
             new Audio('assets/sounds/war.wav').play();
             div_result.innerHTML = 'wojna'
+
+            const playerCards = [player_card];
+            const compCards = [comp_card];
+            //ostatni elemnt w tablicy length-1
+            while (playerCards[playerCards.length - 1].figure == compCards[compCards.length - 1].figure) {
+                for (let i = 0; i < 2; i++) {
+                    const temp_player_card = this.playerCards[0];
+                    playerCards.push(temp_player_card);
+                    this.playerCards.shift();
+
+                    const temp_comp_card = this.compCards[0];
+                    compCards.push(temp_comp_card);
+                    this.compCards.shift();
+                }
+            }
+
+            //const allCards = [...playerCards, ...compCards]; //spread syntax
+            //bierze elementy tablicy a nie cala tablice
+
+            player_cards_img.src = playerCards[playerCards.length - 1].image;
+            comp_cards_img.src = compCards[compCards.length - 1].image;
+
+            if (playerCards[playerCards.length - 1].figure > compCards[compCards.length - 1].figure) {
+                this.playerCards = [...playerCards, ...compCards, ...this.playerCards];
+                div_result.innerHTML = 'You Win War';
+            }
+            else {
+                this.compCards = [...playerCards, ...compCards, ...this.compCards];
+                div_result.innerHTML = 'Comp Wins'
+            }
         }
 
         else if (player_card.figure > comp_card.figure) {
@@ -64,6 +94,9 @@ class Game {
             new Audio('assets/sounds/loose.wav').play();
             div_result.innerHTML = 'Comp Wins'
         }
+
+        document.querySelector('#compCardsAmount').innerHTML = `Player Cards ${this.compCards.length}`;
+        document.querySelector('#playerCardsAmount').innerHTML = `Comp Cards ${this.playerCards.length}`;
 
     }
 
